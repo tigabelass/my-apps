@@ -1,0 +1,50 @@
+{% extends "blueprint/kalkulator.html" %}
+{% load static %}
+
+{% block app-css %}
+<link rel="stylesheet" href="{% static 'kalkulator/css/stylesuhu.css' %}">
+{% endblock app-css %}
+
+{% block history-db %}
+<h2 class="p-3">Riwayat Kalkulasi:</h2>
+{% for History in histories|slice:":13" %}
+<li>{{History.number}} {{History.suhu_asal}} = {{History.result}} {{History.suhu_tujuan}} ({{History.date}})</li>
+{% endfor %}
+{% endblock history-db %}
+
+{% block content %}
+<div class="kalkulator shadow">
+    <form method="POST">
+        {% csrf_token %}
+        <h2 class="d-flex justify-content-center">{{title}}</h2>
+        <div class="suhuasal d-flex align-items-center">
+            <label for="suhu_asal">Dari:</label>
+            <select name="suhu_asal" required>
+                <option value="C">Celcius</option>
+                <option value="F">Fahrenheit</option>
+                <option value="K">Kelvin</option>
+                <option value="Re">Reamur</option>
+            </select>
+        </div>
+        <div class="suhutujuan d-flex align-items-center">
+            <label for="suhu_tujuan">Ke:</label>
+            <select name="suhu_tujuan" required>
+                <option value="C">Celcius</option>
+                <option value="F">Fahrenheit</option>
+                <option value="K">Kelvin</option>
+                <option value="Re">Reamur</option>
+            </select>
+        </div>
+        <div class="display d-flex mb-2">
+        <input type="text" name="number" placeholder="0" id="display" readonly required>
+        <p class="mb-2 mb-lg-0">Hasil:</p>
+        {% if result %}
+        <p class="mb-2 mb-lg-0">{{result}}</p>
+        {% endif %}
+    </div>
+
+{% endblock content %}
+
+{% block app-js %}
+<script src="{% static 'kalkulator/js/conversi.js' %}"></script>
+{% endblock app-js %}

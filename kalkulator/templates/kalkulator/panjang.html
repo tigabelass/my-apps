@@ -1,0 +1,52 @@
+{% extends "blueprint/kalkulator.html" %}
+{% load static %}
+{% block app-css %}
+<link rel="stylesheet" href="{% static 'kalkulator/css/style.css' %}">
+{% endblock app-css %}
+
+{% block history-db %}
+<h2 class="p-3">Riwayat Kalkulasi:</h2>
+{% for History in histories|slice:":13" %}
+<li>{{History.number}} {{History.panjang_asal}} = {{History.result}} {{History.panjang_tujuan}} ({{History.date}})</li>
+{% endfor %}
+{% endblock history-db %}
+
+
+{% block content %}
+<div class="kalkulator shadow">
+    <form method="POST">
+        {% csrf_token %}
+        <h2>{{title}}</h2>
+        <label for="satuan_asal">Dari:</label>
+        <select name="satuan_asal" required>
+            <option value="km">Kilometer</option>
+            <option value="hm">Hektometer</option>
+            <option value="dam">Dekameter</option>
+            <option value="m">Meter</option>
+            <option value="dm">Desimeter</option>
+            <option value="cm">Centimeter</option>
+            <option value="mm">Milimeter</option>
+        </select>
+        <br>
+        <label for="satuan_tujuan">Ke:</label>
+        <select name="satuan_tujuan" required>
+            <option value="km">Kilometer</option>
+            <option value="hm">Hektometer</option>
+            <option value="dam">Dekameter</option>
+            <option value="m">Meter</option>
+            <option value="dm">Desimeter</option>
+            <option value="cm">Centimeter</option>
+            <option value="mm">Milimeter</option>
+        </select>
+        <div class="display d-flex mb-2">
+        <input type="text" name="number" placeholder="0" id="display" readonly required>
+        <p class="mb-2 mb-lg-0">Hasil:</p>
+        {% if result %}
+        <p class="mb-2 mb-lg-0">{{result}}</p>
+        {% endif %}
+    </div>
+{% endblock content %}
+
+{% block app-js %}
+<script src="{% static 'kalkulator/js/conversi.js' %}"></script>
+{% endblock app-js %}
