@@ -6,6 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{title}}</title>
     {% include "snippets/style.html" %}
+    <style>
+      html {
+    scrollbar-width: none; 
+    -ms-overflow-style: none; 
+}
+
+body::-webkit-scrollbar {
+    width: 0; 
+}
+    </style>
 </head>
 <body>
       {% include "snippets/navbar.html" %}
